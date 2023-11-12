@@ -87,6 +87,7 @@ def essays_embeddings(datafile, tokenizer, token_length, mode):
                     add_special_tokens=True,
                     max_length=token_length,
                     padding='max_length',
+                    truncation=True,
                 )
             )
         elif mode == "512_tail":
@@ -96,6 +97,7 @@ def essays_embeddings(datafile, tokenizer, token_length, mode):
                     add_special_tokens=True,
                     max_length=token_length,
                     padding='max_length',
+                    truncation=True,
                 )
             )
         elif mode == "256_head_tail":
@@ -105,6 +107,7 @@ def essays_embeddings(datafile, tokenizer, token_length, mode):
                     add_special_tokens=True,
                     max_length=token_length,
                     padding='max_length',
+                    truncation=True,
                 )
             )
 
@@ -122,6 +125,7 @@ def essays_embeddings(datafile, tokenizer, token_length, mode):
                     add_special_tokens=True,
                     max_length=token_length,
                     padding='max_length',
+                    truncation=True,
                 )
                 for x in subdoc_tokens
             ]
@@ -196,6 +200,7 @@ def kaggle_embeddings(datafile, tokenizer, token_length):
             add_special_tokens=True,
             max_length=token_length,
             padding='max_length',
+            truncation=True,
         )
         if cnt < 10:
             print(tokens[:10])
