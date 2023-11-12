@@ -161,17 +161,16 @@ def load_Kaggle_df(datafile):
 
             text = line[1]
 
-            df = df.append(
-                {
-                    "user": line[3],
-                    "text": text,
-                    "E": 1 if line[0][0] == "E" else 0,
-                    "N": 1 if line[0][1] == "N" else 0,
-                    "F": 1 if line[0][2] == "F" else 0,
-                    "J": 1 if line[0][3] == "J" else 0,
-                },
-                ignore_index=True,
-            )
+            new_row = pd.DataFrame([{
+                "user": line[3],
+                "text": text,
+                "E": 1 if line[0][0] == "E" else 0,
+                "N": 1 if line[0][1] == "N" else 0,
+                "F": 1 if line[0][2] == "F" else 0,
+                "J": 1 if line[0][3] == "J" else 0,
+            }])
+
+            df = pd.concat([df, new_row], ignore_index=True)
 
     print("E : ", df["E"].value_counts())
     print("N : ", df["N"].value_counts())
