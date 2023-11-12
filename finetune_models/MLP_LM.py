@@ -64,9 +64,18 @@ def training(dataset, inputs, full_targets, inp_dir, save_model):
     expdata = {}
     expdata["acc"], expdata["trait"], expdata["fold"] = [], [], []
 
-    best_models, best_model, best_accuracy = {}, None, 0.0
+    #best_models, best_model, best_accuracy = {}, None, 0.0
+    best_models = {}
 
     for trait_idx in range(full_targets.shape[1]):
+        """
+        Original code mistook the place of initialization for best_model and best_accuracy.
+        Initialized those variables/instances in the for loop.
+        """
+        ############
+        best_model, best_accuracy = None, 0.0
+        ############
+
         # convert targets to one-hot encoding
         targets = full_targets[:, trait_idx]
         n_data = targets.shape[0]

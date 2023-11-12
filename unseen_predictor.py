@@ -86,13 +86,13 @@ def load_finetune_model(op_dir, finetune_model, dataset):
     for trait in trait_labels:
         if re.search(r"MLP_LM", str(finetune_model).upper()):
             model_name = f"{path_model}/MLP_LM_{trait}.h5"
-            print(f"Load model: {model_name}")
+#            print(f"Load model: {model_name}")
             abort_if_model_not_exist(model_name)
             model = tf.keras.models.load_model(model_name)
 
         elif re.search(r"SVM_LM", str(finetune_model).upper()):
             model_name = f"{path_model}/SVM_LM_{trait}.pkl"
-            print(f"Load model: {model_name}")
+#            print(f"Load model: {model_name}")
             abort_if_model_not_exist(model_name)
             model = joblib.load(model_name)
 
@@ -146,12 +146,12 @@ def predict(new_text, embed, op_dir, token_length, finetune_model, dataset):
     model.to(DEVICE)
 
     new_embeddings = extract_bert_features(new_text_pre, tokenizer, model, token_length)
-    print("finetune model: ", finetune_model)
+#    print("finetune model: ", finetune_model)
     models, predictions = load_finetune_model(op_dir, finetune_model, dataset), {}
 
     for trait, model in models.items():
         try:
-            prediction = model.predict(new_embeddings)
+            prediction = model.predict(new_embeddings, verbose=0) # add verbose=0
             prediction = softmax(prediction)
             prediction = prediction[0][1]
 
@@ -161,10 +161,12 @@ def predict(new_text, embed, op_dir, token_length, finetune_model, dataset):
         except BaseException as e:
             print(f"Failed to make prediction: {e}")
 
-    print(f"\nPersonality predictions using {str(finetune_model).upper()}:")
-    for trait, prediction in predictions.items():
-        binary_prediction = "Yes" if prediction > 0.5 else "No"
-        print(f"{trait}: {binary_prediction}: {prediction:.3f}")
+    return predictions
+
+#    print(f"\nPersonality predictions using {str(finetune_model).upper()}:")
+#    for trait, prediction in predictions.items():
+#        binary_prediction = "Yes" if prediction > 0.5 else "No"
+#        print(f"{trait}: {binary_prediction}: {prediction:.3f}")
 
 
 if __name__ == "__main__":
@@ -178,11 +180,11 @@ if __name__ == "__main__":
         embed_mode,
         finetune_model,
     ) = utils.parse_args_predictor()
-    print(
-        "{} | {} | {} | {} | {} | {}".format(
-            dataset, embed, token_length, mode, embed_mode, finetune_model
-        )
-    )
+#    print(
+#        "{} | {} | {} | {} | {} | {}".format(
+#            dataset, embed, token_length, mode, embed_mode, finetune_model
+#        )
+#    )
     try:
         new_text = input("\nEnter a new text:")
     except KeyboardInterrupt:
