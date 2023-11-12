@@ -112,6 +112,7 @@ if __name__ == "__main__":
         op_dir,
         mode,
         embed_mode,
+        kaggle_train,
     ) = utils.parse_args_extractor()
     print(
         "\n{} | {} | {} | {} | {}\n".format(
@@ -124,7 +125,7 @@ if __name__ == "__main__":
     # create a class which can be passed to the pyTorch dataloader. responsible for returning tokenized and encoded values of the dataset
     # this class will have __getitem__(self,idx) function which will return input_ids and target values
 
-    map_dataset = MyMapDataset(dataset, tokenizer, token_length, DEVICE, mode)
+    map_dataset = MyMapDataset(dataset, tokenizer, token_length, DEVICE, mode, kaggle_train)
 
     data_loader = DataLoader(dataset=map_dataset, batch_size=batch_size, shuffle=False,)
 

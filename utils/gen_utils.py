@@ -89,6 +89,7 @@ def parse_args_extractor():
     ap.add_argument("-op_dir", type=str, default="pkl_data/")
     ap.add_argument("-mode", type=str, default="512_head")
     ap.add_argument("-embed_mode", type=str, default="cls")
+    ap.add_argument("-kaggle_train", type=bool, default=False)
     args = ap.parse_args()
     return (
         args.dataset_type,
@@ -98,6 +99,7 @@ def parse_args_extractor():
         args.op_dir,
         args.mode,
         args.embed_mode,
+        args.kaggle_train,
     )
 
 
