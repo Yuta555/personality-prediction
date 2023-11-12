@@ -13,14 +13,17 @@ import utils.dataset_processors as dataset_processors
 
 
 class MyMapDataset(Dataset):
-    def __init__(self, dataset, tokenizer, token_length, DEVICE, mode):
+    def __init__(self, dataset, tokenizer, token_length, DEVICE, mode, kaggle_train):
         if dataset == "essays":
             datafile = "data/essays/essays.csv"
             author_ids, input_ids, targets = dataset_processors.essays_embeddings(
                 datafile, tokenizer, token_length, mode
             )
         elif dataset == "kaggle":
-            datafile = "data/kaggle/kaggle.csv"
+            if kaggle_train:
+                datafile = "data/kaggle/kaggle_train.csv"
+            else:
+                datafile = "data/kaggle/kaggle.csv"
             author_ids, input_ids, targets = dataset_processors.kaggle_embeddings(
                 datafile, tokenizer, token_length
             )
